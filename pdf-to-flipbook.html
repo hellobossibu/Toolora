@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF to Flipbook Creator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- turn.js CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/turn.js@4/turn.min.css">
+    <style>
+        #flipbook { width: 100%; height: 80vh; margin: 0 auto; }
+        .flipbook-page { background: white; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-100 min-h-screen">
+    <div class="container mx-auto px-8 py-16">
+        <!-- Header -->
+        <div class="text-center mb-20">
+            <h1 class="text-4xl md:text-6xl font-bold text-blue-600 mb-4">
+                <i class="fas fa-book-open mr-4"></i>PDF to Flipbook Creator
+            </h1>
+            <p class="text-gray-600 text-lg md:text-xl">Upload a PDF and view it as a beautiful, flippable book</p>
+        </div>
+
+        <!-- Main Content with Ad Space -->
+        <div class="flex gap-8">
+            <!-- Main Content (70%) -->
+            <div class="flex-1">
+                <!-- Main Content -->
+                <div class="bg-white rounded-2xl shadow-2xl p-10 mb-12">
+                    <p class="text-gray-600 mb-6">Upload a PDF and view it as a beautiful, flippable book. All processing is done in your browser for privacy and speed.</p>
+                    <div class="mb-6">
+                        <label for="pdfInput" class="block text-lg font-semibold text-gray-700 mb-2">Upload PDF</label>
+                        <input id="pdfInput" type="file" accept="application/pdf" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent text-lg bg-white">
+                    </div>
+                    <div id="pdfError" class="hidden text-red-600 mb-4"></div>
+                    <div id="pdfLoading" class="hidden text-blue-600 mb-4 flex items-center"><i class="fas fa-spinner fa-spin mr-2"></i>Processing PDF...</div>
+                    <div id="flipbookContainer" class="hidden mt-8">
+                        <div class="flex justify-end mb-4">
+                            <button id="closeFlipbook" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-semibold flex items-center"><i class="fas fa-times mr-2"></i>Close Flipbook</button>
+                        </div>
+                        <div id="flipbook" class="shadow-2xl rounded-xl overflow-hidden"></div>
+                    </div>
+                </div>
+
+                <!-- Back to Home -->
+                <div class="bg-white rounded-2xl shadow-2xl p-8 text-center">
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-4">Back to Home</h3>
+                    <p class="text-gray-600 mb-6">Return to the main page</p>
+                    <a href="index.html" class="inline-block bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-200 shadow-xl hover:shadow-2xl transform hover:scale-105">
+                        <i class="fas fa-home mr-3"></i>Go to Home Page
+                    </a>
+                </div>
+            </div>
+
+            <!-- Ad Space (30%) -->
+            <div class="w-80 flex-shrink-0">
+                <!-- Single Advertisement Space -->
+                <div class="bg-white rounded-2xl shadow-2xl p-6 sticky top-8">
+                    <div class="text-center">
+                        <div class="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-4 py-2 rounded-lg mb-4">
+                            <i class="fas fa-ad mr-2"></i>Advertisement
+                        </div>
+                        <div class="bg-gray-100 rounded-lg p-4 mb-4 min-h-[600px] flex items-center justify-center">
+                            <div class="text-center text-gray-500">
+                                <i class="fas fa-ad text-6xl mb-4"></i>
+                                <p class="text-xl font-semibold mb-2">Advertisement Space</p>
+                                <p class="text-lg mb-4">300x600 Banner Ad</p>
+                                <p class="text-sm">Perfect for Google AdSense</p>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-500">Sponsored Content</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- turn.js and pdf.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/turn.js@4/turn.min.js"></script>
+    <script src="pdf-to-flipbook.js"></script>
+</body>
+</html> 

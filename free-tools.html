@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Tools Bundle</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+    <div class="container mx-auto px-8 py-16">
+        <!-- Header -->
+        <div class="text-center mb-20">
+            <h1 class="text-6xl font-bold text-blue-600 mb-8">
+                <i class="fas fa-toolbox mr-6"></i>Free Tools Bundle
+            </h1>
+            <p class="text-gray-600 text-2xl">Essential utilities for daily productivity</p>
+        </div>
+
+        <!-- Tools Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-20">
+            <!-- Password Generator -->
+            <div class="bg-white rounded-2xl shadow-2xl p-8">
+                <h2 class="text-3xl font-bold text-gray-800 mb-8 flex items-center">
+                    <i class="fas fa-key mr-4 text-orange-500"></i>Password Generator
+                </h2>
+                
+                <div class="space-y-6">
+                    <div>
+                        <label class="block text-lg font-semibold text-gray-700 mb-3">Password Length</label>
+                        <input type="range" id="passwordLength" min="8" max="50" value="16" 
+                               class="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                        <div class="flex justify-between text-sm text-gray-600 mt-2">
+                            <span>8</span>
+                            <span id="lengthDisplay">16</span>
+                            <span>50</span>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-3">
+                        <label class="flex items-center">
+                            <input type="checkbox" id="includeUppercase" checked class="mr-3">
+                            <span>Include Uppercase Letters</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" id="includeLowercase" checked class="mr-3">
+                            <span>Include Lowercase Letters</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" id="includeNumbers" checked class="mr-3">
+                            <span>Include Numbers</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" id="includeSymbols" checked class="mr-3">
+                            <span>Include Symbols</span>
+                        </label>
+                    </div>
+                    
+                    <button id="generatePasswordBtn" class="w-full bg-orange-600 hover:bg-orange-700 text-white py-4 px-6 rounded-xl font-semibold transition-all duration-200">
+                        <i class="fas fa-magic mr-3"></i>Generate Password
+                    </button>
+                    
+                    <div id="passwordResult" class="hidden">
+                        <label class="block text-lg font-semibold text-gray-700 mb-3">Generated Password</label>
+                        <div class="flex">
+                            <input type="text" id="generatedPassword" readonly 
+                                   class="flex-1 px-4 py-3 border-2 border-gray-300 rounded-l-xl bg-gray-50">
+                            <button id="copyPasswordBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-r-xl">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                        <div id="passwordStrength" class="mt-3 text-sm"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- QR Code Maker -->
+            <div class="bg-white rounded-2xl shadow-2xl p-8">
+                <h2 class="text-3xl font-bold text-gray-800 mb-8 flex items-center">
+                    <i class="fas fa-qrcode mr-4 text-teal-500"></i>QR Code Maker
+                </h2>
+                
+                <div class="space-y-6">
+                    <div>
+                        <label class="block text-lg font-semibold text-gray-700 mb-3">Content</label>
+                        <input type="text" id="qrContent" placeholder="Enter URL, text, or contact info" 
+                               class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-4 focus:ring-teal-300 focus:border-teal-400">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-lg font-semibold text-gray-700 mb-3">QR Code Type</label>
+                        <select id="qrType" class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-4 focus:ring-teal-300 focus:border-teal-400">
+                            <option value="url">URL</option>
+                            <option value="text">Text</option>
+                            <option value="contact">Contact Info</option>
+                        </select>
+                    </div>
+                    
+                    <button id="generateQrBtn" class="w-full bg-teal-600 hover:bg-teal-700 text-white py-4 px-6 rounded-xl font-semibold transition-all duration-200">
+                        <i class="fas fa-qrcode mr-3"></i>Generate QR Code
+                    </button>
+                    
+                    <div id="qrResult" class="hidden text-center">
+                        <div id="qrCodeContainer" class="mb-4"></div>
+                        <button id="downloadQrBtn" class="bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-xl font-semibold">
+                            <i class="fas fa-download mr-2"></i>Download QR Code
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Word Counter -->
+            <div class="bg-white rounded-2xl shadow-2xl p-8">
+                <h2 class="text-3xl font-bold text-gray-800 mb-8 flex items-center">
+                    <i class="fas fa-calculator mr-4 text-purple-500"></i>Word Counter
+                </h2>
+                
+                <div class="space-y-6">
+                    <div>
+                        <label class="block text-lg font-semibold text-gray-700 mb-3">Text to Analyze</label>
+                        <textarea id="textToCount" rows="8" placeholder="Paste or type your text here..." 
+                                  class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-4 focus:ring-purple-300 focus:border-purple-400 resize-none"></textarea>
+                    </div>
+                    
+                    <div id="wordCountResults" class="grid grid-cols-2 gap-4 text-center">
+                        <div class="bg-purple-100 rounded-xl p-4">
+                            <div class="text-2xl font-bold text-purple-600" id="wordCount">0</div>
+                            <div class="text-sm text-purple-700">Words</div>
+                        </div>
+                        <div class="bg-purple-100 rounded-xl p-4">
+                            <div class="text-2xl font-bold text-purple-600" id="charCount">0</div>
+                            <div class="text-sm text-purple-700">Characters</div>
+                        </div>
+                        <div class="bg-purple-100 rounded-xl p-4">
+                            <div class="text-2xl font-bold text-purple-600" id="charNoSpaceCount">0</div>
+                            <div class="text-sm text-purple-700">Characters (no spaces)</div>
+                        </div>
+                        <div class="bg-purple-100 rounded-xl p-4">
+                            <div class="text-2xl font-bold text-purple-600" id="lineCount">0</div>
+                            <div class="text-sm text-purple-700">Lines</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Text Case Converter -->
+            <div class="bg-white rounded-2xl shadow-2xl p-8">
+                <h2 class="text-3xl font-bold text-gray-800 mb-8 flex items-center">
+                    <i class="fas fa-font mr-4 text-green-500"></i>Text Case Converter
+                </h2>
+                
+                <div class="space-y-6">
+                    <div>
+                        <label class="block text-lg font-semibold text-gray-700 mb-3">Input Text</label>
+                        <textarea id="textToConvert" rows="6" placeholder="Enter text to convert..." 
+                                  class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-4 focus:ring-green-300 focus:border-green-400 resize-none"></textarea>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-3">
+                        <button id="uppercaseBtn" class="bg-green-600 hover:bg-green-700 text-white py-3 px-4 rounded-xl font-semibold text-sm">
+                            UPPERCASE
+                        </button>
+                        <button id="lowercaseBtn" class="bg-green-600 hover:bg-green-700 text-white py-3 px-4 rounded-xl font-semibold text-sm">
+                            lowercase
+                        </button>
+                        <button id="titleCaseBtn" class="bg-green-600 hover:bg-green-700 text-white py-3 px-4 rounded-xl font-semibold text-sm">
+                            Title Case
+                        </button>
+                        <button id="sentenceCaseBtn" class="bg-green-600 hover:bg-green-700 text-white py-3 px-4 rounded-xl font-semibold text-sm">
+                            Sentence case
+                        </button>
+                        <button id="camelCaseBtn" class="bg-green-600 hover:bg-green-700 text-white py-3 px-4 rounded-xl font-semibold text-sm">
+                            camelCase
+                        </button>
+                        <button id="snakeCaseBtn" class="bg-green-600 hover:bg-green-700 text-white py-3 px-4 rounded-xl font-semibold text-sm">
+                            snake_case
+                        </button>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-lg font-semibold text-gray-700 mb-3">Converted Text</label>
+                        <textarea id="convertedText" rows="6" readonly 
+                                  class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl bg-gray-50 resize-none"></textarea>
+                        <button id="copyConvertedBtn" class="mt-3 bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-xl font-semibold">
+                            <i class="fas fa-copy mr-2"></i>Copy Converted Text
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Instructions -->
+        <div class="bg-white rounded-2xl shadow-2xl p-12 mb-12">
+            <h3 class="text-3xl font-semibold text-gray-800 mb-8 flex items-center">
+                <i class="fas fa-question-circle mr-4 text-blue-500"></i>How to Use
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h4 class="text-xl font-semibold text-gray-700 mb-4">Password Generator</h4>
+                    <p class="text-gray-600">Adjust length and character types to create secure passwords</p>
+                </div>
+                <div>
+                    <h4 class="text-xl font-semibold text-gray-700 mb-4">QR Code Maker</h4>
+                    <p class="text-gray-600">Generate QR codes for URLs, text, or contact information</p>
+                </div>
+                <div>
+                    <h4 class="text-xl font-semibold text-gray-700 mb-4">Word Counter</h4>
+                    <p class="text-gray-600">Analyze text for word count, characters, and line count</p>
+                </div>
+                <div>
+                    <h4 class="text-xl font-semibold text-gray-700 mb-4">Text Case Converter</h4>
+                    <p class="text-gray-600">Convert text between different case formats instantly</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Back to Home -->
+        <div class="bg-white rounded-2xl shadow-2xl p-8 text-center">
+            <h3 class="text-2xl font-semibold text-gray-800 mb-4">Back to Home</h3>
+            <p class="text-gray-600 mb-6">Return to the main page</p>
+            <a href="index.html" class="inline-block bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-200 shadow-xl hover:shadow-2xl transform hover:scale-105">
+                <i class="fas fa-home mr-3"></i>Go to Home Page
+            </a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    <script src="free-tools.js"></script>
+</body>
+</html> 

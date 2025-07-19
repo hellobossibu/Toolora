@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Thumbnail Downloader</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gradient-to-br from-red-50 to-red-100 min-h-screen">
+    <div class="container mx-auto px-8 py-16">
+        <!-- Header -->
+        <div class="text-center mb-20">
+            <h1 class="text-6xl font-bold text-red-600 mb-8">
+                <i class="fab fa-youtube mr-6"></i>YouTube Thumbnail Downloader
+            </h1>
+            <p class="text-gray-600 text-2xl">Extract and download high-quality thumbnails from YouTube videos</p>
+        </div>
+
+        <!-- Main Content with Ad Space -->
+        <div class="flex gap-8">
+            <!-- Main Content (70%) -->
+            <div class="flex-1">
+                <!-- Input Section -->
+                <div class="mb-20">
+                    <div class="bg-white rounded-2xl shadow-2xl p-12">
+                        <div class="flex flex-col lg:flex-row gap-8">
+                            <input 
+                                type="text" 
+                                id="youtubeUrl" 
+                                placeholder="Paste YouTube URL here..." 
+                                class="flex-1 px-8 py-6 text-xl border-2 border-gray-300 rounded-2xl focus:outline-none focus:ring-4 focus:ring-red-500 focus:border-transparent transition-all duration-200"
+                            >
+                            <button 
+                                id="extractBtn" 
+                                class="bg-red-600 hover:bg-red-700 text-white px-12 py-6 rounded-2xl font-semibold text-xl transition-all duration-200 flex items-center justify-center shadow-xl hover:shadow-2xl transform hover:scale-105"
+                            >
+                                <i class="fas fa-download mr-4"></i>Extract Thumbnails
+                            </button>
+                        </div>
+                        <div id="errorMessage" class="text-red-500 text-lg mt-6 hidden"></div>
+                    </div>
+                </div>
+
+                <!-- Loading Spinner -->
+                <div id="loadingSpinner" class="text-center hidden mb-20">
+                    <div class="inline-block animate-spin rounded-full h-16 w-16 border-b-4 border-red-600"></div>
+                    <p class="text-gray-600 mt-6 text-xl">Extracting thumbnails...</p>
+                </div>
+
+                <!-- Results Section -->
+                <div id="results" class="hidden">
+                    <div class="grid grid-cols-1 xl:grid-cols-2 gap-12 mb-12">
+                        <!-- High Quality Thumbnail -->
+                        <div class="bg-white rounded-2xl shadow-2xl overflow-hidden transform hover:scale-105 transition-transform duration-300">
+                            <div class="p-8 bg-gradient-to-r from-green-500 to-green-600">
+                                <h3 class="text-white font-semibold text-2xl flex items-center">
+                                    <i class="fas fa-star mr-4"></i>High Quality (1280x720)
+                                </h3>
+                            </div>
+                            <div class="p-8">
+                                <img id="highQualityThumbnail" class="w-full h-80 object-cover rounded-2xl mb-8 shadow-xl" alt="High Quality Thumbnail">
+                                <button 
+                                    id="downloadHighQuality" 
+                                    class="w-full bg-green-600 hover:bg-green-700 text-white py-6 px-8 rounded-2xl font-semibold text-xl transition-all duration-200 flex items-center justify-center shadow-xl hover:shadow-2xl transform hover:scale-105"
+                                >
+                                    <i class="fas fa-download mr-4"></i>Download High Quality
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Standard Quality Thumbnail -->
+                        <div class="bg-white rounded-2xl shadow-2xl overflow-hidden transform hover:scale-105 transition-transform duration-300">
+                            <div class="p-8 bg-gradient-to-r from-blue-500 to-blue-600">
+                                <h3 class="text-white font-semibold text-2xl flex items-center">
+                                    <i class="fas fa-image mr-4"></i>Standard Quality (480x360)
+                                </h3>
+                            </div>
+                            <div class="p-8">
+                                <img id="standardThumbnail" class="w-full h-80 object-cover rounded-2xl mb-8 shadow-xl" alt="Standard Thumbnail">
+                                <button 
+                                    id="downloadStandard" 
+                                    class="w-full bg-blue-600 hover:bg-blue-700 text-white py-6 px-8 rounded-2xl font-semibold text-xl transition-all duration-200 flex items-center justify-center shadow-xl hover:shadow-2xl transform hover:scale-105"
+                                >
+                                    <i class="fas fa-download mr-4"></i>Download Standard
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Video Info -->
+                    <div id="videoInfo" class="bg-white rounded-2xl shadow-2xl p-12 mb-12">
+                        <h3 class="text-3xl font-semibold text-gray-800 mb-8 flex items-center">
+                            <i class="fas fa-info-circle mr-4 text-blue-500"></i>Video Information
+                        </h3>
+                        <div id="videoDetails" class="text-gray-600 text-xl"></div>
+                    </div>
+                </div>
+
+                <!-- Instructions -->
+                <div class="mb-12">
+                    <div class="bg-white rounded-2xl shadow-2xl p-12">
+                        <h3 class="text-3xl font-semibold text-gray-800 mb-8 flex items-center">
+                            <i class="fas fa-question-circle mr-4 text-purple-500"></i>How to Use
+                        </h3>
+                        <ol class="list-decimal list-inside space-y-6 text-gray-600 text-xl">
+                            <li class="flex items-start">
+                                <span class="mr-6 text-red-500 font-semibold text-2xl">1.</span>
+                                <span>Copy a YouTube video URL from your browser</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="mr-6 text-red-500 font-semibold text-2xl">2.</span>
+                                <span>Paste it into the input field above</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="mr-6 text-red-500 font-semibold text-2xl">3.</span>
+                                <span>Click "Extract Thumbnails" to generate the images</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="mr-6 text-red-500 font-semibold text-2xl">4.</span>
+                                <span>Download your preferred thumbnail quality</span>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- Back to Home -->
+                <div class="bg-white rounded-2xl shadow-2xl p-8 text-center">
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-4">Back to Home</h3>
+                    <p class="text-gray-600 mb-6">Return to the main page</p>
+                    <a href="index.html" class="inline-block bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-200 shadow-xl hover:shadow-2xl transform hover:scale-105">
+                        <i class="fas fa-home mr-3"></i>Go to Home Page
+                    </a>
+                </div>
+            </div>
+
+            <!-- Ad Space (30%) -->
+            <div class="w-80 flex-shrink-0">
+                <!-- Single Advertisement Space -->
+                <div class="bg-white rounded-2xl shadow-2xl p-6 sticky top-8">
+                    <div class="text-center">
+                        <div class="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-4 py-2 rounded-lg mb-4">
+                            <i class="fas fa-ad mr-2"></i>Advertisement
+                        </div>
+                        <div class="bg-gray-100 rounded-lg p-4 mb-4 min-h-[600px] flex items-center justify-center">
+                            <div class="text-center text-gray-500">
+                                <i class="fas fa-ad text-6xl mb-4"></i>
+                                <p class="text-xl font-semibold mb-2">Advertisement Space</p>
+                                <p class="text-lg mb-4">300x600 Banner Ad</p>
+                                <p class="text-sm">Perfect for Google AdSense</p>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-500">Sponsored Content</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="youtube-script.js"></script>
+</body>
+</html> 

@@ -1,0 +1,1768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toolora - Premium Free Online Tools Suite</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Premium Floating Particles Background */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .particle {
+            position: absolute;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 50%;
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+        
+        /* Premium Gradient Overlay */
+        .premium-overlay {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .premium-overlay::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        /* Hidden Star Button */
+        .hidden-star-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 45px;
+            height: 45px;
+            background: rgba(102, 126, 234, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+        
+        .hidden-star-btn:hover {
+            background: rgba(102, 126, 234, 0.5);
+            transform: scale(1.05);
+        }
+        
+        .hidden-star-btn i {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+        
+        .hidden-star-btn:hover i {
+            color: white;
+        }
+        
+        /* Ownership Message */
+        .ownership-message {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            z-index: 9999;
+            transform: translateY(-100%);
+            transition: transform 0.5s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .ownership-message.show {
+            transform: translateY(0);
+        }
+        
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 400px;
+            width: 90%;
+            transform: scale(0.7);
+            transition: transform 0.3s ease;
+        }
+        
+        .modal-overlay.show .modal-content {
+            transform: scale(1);
+        }
+        
+        .modal-content h3 {
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 20px;
+        }
+        
+        .modal-content input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+        
+        .modal-content input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .modal-content button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-content button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .modal-content .error-message {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 10px;
+            text-align: center;
+            display: none;
+        }
+        
+        /* Enhanced Tool Card Hover Effects */
+        .tool-card {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .tool-card:hover::before {
+            left: 100%;
+        }
+        
+        /* Blinking/Shine Effect for Tool Cards */
+        .tool-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(255, 255, 255, 0.1) 25%, 
+                rgba(255, 255, 255, 0.3) 50%, 
+                rgba(255, 255, 255, 0.1) 75%, 
+                transparent 100%);
+            transform: skewX(-25deg);
+            animation: shine 3s infinite;
+            z-index: 1;
+        }
+        
+        @keyframes shine {
+            0% {
+                left: -150%;
+            }
+            50% {
+                left: 150%;
+            }
+            100% {
+                left: 150%;
+            }
+        }
+        
+        /* Staggered shine effect for different cards */
+        .tool-card:nth-child(1)::after { animation-delay: 0s; }
+        .tool-card:nth-child(2)::after { animation-delay: 0.5s; }
+        .tool-card:nth-child(3)::after { animation-delay: 1s; }
+        .tool-card:nth-child(4)::after { animation-delay: 1.5s; }
+        .tool-card:nth-child(5)::after { animation-delay: 2s; }
+        .tool-card:nth-child(6)::after { animation-delay: 2.5s; }
+        .tool-card:nth-child(7)::after { animation-delay: 3s; }
+        .tool-card:nth-child(8)::after { animation-delay: 3.5s; }
+        .tool-card:nth-child(9)::after { animation-delay: 4s; }
+        
+        /* Pulsing glow effect */
+        .tool-card {
+            animation: pulse-glow 4s ease-in-out infinite;
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% {
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            }
+            50% {
+                box-shadow: 0 15px 40px rgba(102, 126, 234, 0.2);
+            }
+        }
+        
+        /* Staggered pulse for different cards */
+        .tool-card:nth-child(1) { animation-delay: 0s; }
+        .tool-card:nth-child(2) { animation-delay: 0.4s; }
+        .tool-card:nth-child(3) { animation-delay: 0.8s; }
+        .tool-card:nth-child(4) { animation-delay: 1.2s; }
+        .tool-card:nth-child(5) { animation-delay: 1.6s; }
+        .tool-card:nth-child(6) { animation-delay: 2s; }
+        .tool-card:nth-child(7) { animation-delay: 2.4s; }
+        .tool-card:nth-child(8) { animation-delay: 2.8s; }
+        .tool-card:nth-child(9) { animation-delay: 3.2s; }
+        
+        /* Premium Loading Animation */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease-out;
+        }
+        
+        .loading-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .loading-logo {
+            text-align: center;
+            color: white;
+        }
+        
+        .loading-logo h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            animation: pulse 2s infinite;
+        }
+        
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Premium Button Effects */
+        .premium-btn {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .premium-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .premium-btn:hover::after {
+            width: 300px;
+            height: 300px;
+        }
+        
+        /* Top to Bottom Transition Animations */
+        .slide-in-top {
+            opacity: 0;
+            transform: translateY(-100px);
+            transition: all 2s ease-out;
+        }
+        
+        .slide-in-top.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Left to Right Transition Animations (for header sections) */
+        .slide-in-left {
+            opacity: 0;
+            transform: translateX(-100px);
+            transition: all 2s ease-out;
+            will-change: transform, opacity;
+        }
+        
+        .slide-in-left.animate {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        /* Staggered animation delays */
+        .delay-100 { transition-delay: 0.1s; }
+        .delay-200 { transition-delay: 0.2s; }
+        .delay-300 { transition-delay: 0.3s; }
+        .delay-400 { transition-delay: 0.4s; }
+        .delay-500 { transition-delay: 0.5s; }
+        .delay-600 { transition-delay: 0.6s; }
+        .delay-700 { transition-delay: 0.7s; }
+        .delay-800 { transition-delay: 0.8s; }
+        .delay-900 { transition-delay: 0.9s; }
+        .delay-1000 { transition-delay: 1.0s; }
+        .delay-1100 { transition-delay: 1.1s; }
+        .delay-1200 { transition-delay: 1.2s; }
+        .delay-1300 { transition-delay: 1.3s; }
+        .delay-1400 { transition-delay: 1.4s; }
+        .delay-1500 { transition-delay: 1.5s; }
+        .delay-1600 { transition-delay: 1.6s; }
+        .delay-1700 { transition-delay: 1.7s; }
+        .delay-1800 { transition-delay: 1.8s; }
+        .delay-1900 { transition-delay: 1.9s; }
+        .delay-2000 { transition-delay: 2.0s; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-purple-50 to-pink-100 min-h-screen">
+    <!-- Ownership Message -->
+    <div class="ownership-message" id="ownershipMessage">
+        <i class="fas fa-crown mr-2"></i>You are the great owner of this website you genius made this website IBRAHIM ABBAS MULTANWALA
+    </div>
+    
+    <!-- Hidden Star Button -->
+    <div class="hidden-star-btn" id="hiddenStarBtn" title="Click me if you dare...">
+        <i class="fas fa-star"></i>
+    </div>
+    
+    <!-- Credential Modal -->
+    <div class="modal-overlay" id="credentialModal">
+        <div class="modal-content">
+            <h3><i class="fas fa-lock mr-2"></i>Access Required</h3>
+            <input type="password" id="userId" placeholder="Enter ID" autocomplete="off">
+            <input type="password" id="userPassword" placeholder="Enter Password" autocomplete="off">
+            <button id="submitCredentials">Submit</button>
+            <div class="error-message" id="errorMessage">Invalid credentials. Please try again.</div>
+        </div>
+    </div>
+    
+    <!-- Floating Particles Background -->
+    <div class="particles" id="particles"></div>
+    
+    <div class="container mx-auto px-8 py-16 premium-overlay">
+        <!-- Header -->
+        <div class="flex justify-between items-center mb-20">
+            <!-- Toolora Title (Left Side) -->
+            <div class="slide-in-left delay-100">
+                <h1 class="text-6xl font-bold text-purple-600 mb-4 slide-in-left delay-200">
+                    <i class="fas fa-crown mr-6"></i>Toolora
+                </h1>
+                <p class="text-gray-600 text-2xl slide-in-left delay-300">Premium Free Online Tools Suite - AI, Social Media, Productivity & More</p>
+                <div class="mt-4 inline-block bg-gradient-to-r from-purple-100 to-pink-100 text-purple-800 px-6 py-3 rounded-full border border-purple-200 slide-in-left delay-400">
+                    <i class="fas fa-star mr-2"></i>Luxury Tools • 100% Free • No Limits • Premium Quality
+                </div>
+            </div>
+
+            <!-- JARVIS Voice Guide (Right Side) -->
+            <div class="w-80 bg-gradient-to-r from-purple-800 to-purple-900 rounded-xl shadow-xl p-4 text-center relative overflow-hidden">
+                <div class="flex items-center justify-center mb-2">
+                    <span class="text-lg font-bold text-white flex items-center">
+                        <i class="fas fa-microphone mr-2 text-purple-300"></i>Voice Guide
+                    </span>
+                </div>
+                <div class="flex items-center justify-center space-x-2 mb-2">
+                    <button id="playVoiceBtn" class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-lg font-semibold text-sm flex items-center shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105">
+                        <i class="fas fa-play mr-1"></i>Play
+                    </button>
+                    <button id="pauseVoiceBtn" class="bg-purple-400 hover:bg-purple-500 text-white px-4 py-2 rounded-lg font-semibold text-sm flex items-center shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105">
+                        <i class="fas fa-pause mr-1"></i>Pause
+                    </button>
+                    <button id="stopVoiceBtn" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg font-semibold text-sm flex items-center shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105">
+                        <i class="fas fa-stop mr-1"></i>Stop
+                    </button>
+                </div>
+                <div id="voiceStatus" class="text-purple-200 text-xs min-h-[20px]">
+                    <i class="fas fa-info-circle mr-1"></i>Click Play for voice guide
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Tools Grid (Horizontal Scrollable) -->
+        <div class="bg-white rounded-2xl shadow-2xl p-8 my-12">
+          <h2 class="text-3xl font-bold text-center mb-8">All Tools</h2>
+          <div class="flex overflow-x-auto gap-6 pb-4 scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
+            <!-- YouTube Thumbnail Downloader -->
+            <div class="bg-white rounded-xl shadow-xl overflow-hidden transform hover:scale-105 transition-transform duration-300 tool-card flex-shrink-0" style="width: 320px;">
+                <div class="p-4 bg-gradient-to-r from-red-500 to-red-600">
+                    <h3 class="text-white font-semibold text-lg flex items-center mb-2">
+                        <i class="fab fa-youtube mr-2"></i>YouTube Thumbnails
+                    </h3>
+                    <p class="text-red-100 text-sm">Extract high-quality thumbnails from YouTube videos</p>
+                </div>
+                <div class="p-4">
+                    <ul class="space-y-2 text-gray-600 text-sm mb-4">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            High Quality (1280x720)
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Standard Quality (480x360)
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Smart quality detection
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            One-click downloads
+                        </li>
+                    </ul>
+                    <a href="youtube-thumbnail-downloader.html" class="w-full bg-red-600 hover:bg-red-700 text-white py-3 px-4 rounded-xl font-semibold text-sm transition-all duration-200 flex items-center justify-center shadow-xl hover:shadow-2xl transform hover:scale-105 premium-btn">
+                        <i class="fas fa-arrow-right mr-2"></i>Start Downloading
+                    </a>
+                </div>
+            </div>
+
+            <!-- Link in Bio Generator -->
+            <div class="bg-white rounded-xl shadow-xl overflow-hidden transform hover:scale-105 transition-transform duration-300 tool-card flex-shrink-0" style="width: 320px;">
+                <div class="p-4 bg-gradient-to-r from-purple-500 to-purple-600">
+                    <h3 class="text-white font-semibold text-lg flex items-center mb-2">
+                        <i class="fas fa-link mr-2"></i>Link in Bio
+                    </h3>
+                    <p class="text-purple-100 text-sm">Create mobile-friendly bio pages with unlimited links</p>
+                </div>
+                <div class="p-4">
+                    <ul class="space-y-2 text-gray-600 text-sm mb-4">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Profile picture & bio customization
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Unlimited link buttons
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Mobile-friendly design
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Auto-save to local storage
+                        </li>
+                    </ul>
+                    <a href="link-in-bio.html" class="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 px-4 rounded-xl font-semibold text-sm transition-all duration-200 flex items-center justify-center shadow-xl hover:shadow-2xl transform hover:scale-105 premium-btn">
+                        <i class="fas fa-arrow-right mr-2"></i>Create Bio Page
+                    </a>
+                </div>
+            </div>
+
+            <!-- Emoji Translator -->
+            <div class="bg-white rounded-xl shadow-xl overflow-hidden transform hover:scale-105 transition-transform duration-300 tool-card flex-shrink-0" style="width: 320px;">
+                <div class="p-4 bg-gradient-to-r from-yellow-400 to-yellow-500">
+                    <h3 class="text-white font-semibold text-lg flex items-center mb-2">
+                        <i class="fas fa-smile mr-2"></i>Emoji Translator
+                    </h3>
+                    <p class="text-yellow-100 text-sm">Turn sentences into fun emoji messages instantly</p>
+                </div>
+                <div class="p-4">
+                    <ul class="space-y-2 text-gray-600 text-sm mb-4">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Smart emoji translation
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Copy-to-clipboard button
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Clean, modern UI
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Unlimited usage
+                        </li>
+                    </ul>
+                    <a href="emoji-translator.html" class="w-full bg-yellow-400 hover:bg-yellow-500 text-white py-3 px-4 rounded-xl font-semibold text-sm transition-all duration-200 flex items-center justify-center shadow-xl hover:shadow-2xl transform hover:scale-105 premium-btn">
+                        <i class="fas fa-arrow-right mr-2"></i>Try Emoji Translator
+                    </a>
+                </div>
+            </div>
+
+            <!-- AI Tweet Generator -->
+            <div class="bg-white rounded-xl shadow-xl overflow-hidden transform hover:scale-105 transition-transform duration-300 tool-card flex-shrink-0" style="width: 320px;">
+                <div class="p-4 bg-gradient-to-r from-blue-600 to-purple-600">
+                    <h3 class="text-white font-semibold text-lg flex items-center mb-2">
+                        <i class="fas fa-brain mr-2"></i>AI Tweet Generator
+                    </h3>
+                    <p class="text-blue-100 text-sm">Generate 3 engaging tweets on any topic using GPT-4</p>
+                </div>
+                <div class="p-4">
+                    <ul class="space-y-2 text-gray-600 text-sm mb-4">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Powered by OpenAI GPT-4
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            3 creative tweets per topic
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Copy-to-clipboard for each tweet
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Clean, modern UI
+                        </li>
+                    </ul>
+                    <a href="ai-tweet-generator.html" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-xl font-semibold text-sm transition-all duration-200 flex items-center justify-center shadow-xl hover:shadow-2xl transform hover:scale-105 premium-btn">
+                        <i class="fas fa-arrow-right mr-2"></i>Try AI Tweet Generator
+                    </a>
+                </div>
+            </div>
+
+            <!-- Free Tools Bundle -->
+            <div class="bg-white rounded-xl shadow-xl overflow-hidden transform hover:scale-105 transition-transform duration-300 tool-card flex-shrink-0" style="width: 320px;">
+                <div class="p-4 bg-gradient-to-r from-blue-500 to-blue-600">
+                    <h3 class="text-white font-semibold text-lg flex items-center mb-2">
+                        <i class="fas fa-toolbox mr-2"></i>Free Tools Bundle
+                    </h3>
+                    <p class="text-blue-100 text-sm">A collection of handy tools: password generator, QR code maker, word counter, and more</p>
+                </div>
+                <div class="p-4">
+                    <ul class="space-y-2 text-gray-600 text-sm mb-4">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Password Generator
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            QR Code Maker
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Word Counter
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Text Case Converter
+                        </li>
+                    </ul>
+                    <a href="free-tools.html" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-xl font-semibold text-sm transition-all duration-200 flex items-center justify-center shadow-xl hover:shadow-2xl transform hover:scale-105 premium-btn">
+                        <i class="fas fa-arrow-right mr-2"></i>Explore Free Tools
+                    </a>
+                </div>
+            </div>
+
+            <!-- PDF to Flipbook Creator -->
+            <div class="bg-white rounded-xl shadow-xl overflow-hidden transform hover:scale-105 transition-transform duration-300 tool-card flex-shrink-0" style="width: 320px;">
+                <div class="p-4 bg-gradient-to-r from-indigo-500 to-blue-600">
+                    <h3 class="text-white font-semibold text-lg flex items-center mb-2">
+                        <i class="fas fa-book-open mr-2"></i>PDF to Flipbook
+                    </h3>
+                    <p class="text-indigo-100 text-sm">Turn any PDF into a beautiful, flippable book in your browser</p>
+                </div>
+                <div class="p-4">
+                    <ul class="space-y-2 text-gray-600 text-sm mb-4">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Upload any PDF
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Flippable book viewer
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Full-screen experience
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            100% browser-based
+                        </li>
+                    </ul>
+                    <a href="pdf-to-flipbook.html" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 px-4 rounded-xl font-semibold text-sm transition-all duration-200 flex items-center justify-center shadow-xl hover:shadow-2xl transform hover:scale-105 premium-btn">
+                        <i class="fas fa-arrow-right mr-2"></i>Try PDF to Flipbook
+                    </a>
+                </div>
+            </div>
+
+            <!-- Resume Score Checker (AI) -->
+            <div class="bg-white rounded-xl shadow-xl overflow-hidden transform hover:scale-105 transition-transform duration-300 tool-card flex-shrink-0" style="width: 320px;">
+                <div class="p-4 bg-gradient-to-r from-green-500 to-green-600">
+                    <h3 class="text-white font-semibold text-lg flex items-center mb-2">
+                        <i class="fas fa-file-alt mr-2"></i>Resume Score Checker (AI)
+                    </h3>
+                    <p class="text-green-100 text-sm">Get an instant AI-powered score and feedback for your resume</p>
+                </div>
+                <div class="p-4">
+                    <ul class="space-y-2 text-gray-600 text-sm mb-4">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Score out of 10
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Feedback: Formatting
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Feedback: Clarity
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Feedback: Impact
+                        </li>
+                    </ul>
+                    <a href="resume-score-checker.html" class="w-full bg-green-600 hover:bg-green-700 text-white py-3 px-4 rounded-xl font-semibold text-sm transition-all duration-200 flex items-center justify-center shadow-xl hover:shadow-2xl transform hover:scale-105">
+                        <i class="fas fa-arrow-right mr-2"></i>Try Resume Checker
+                    </a>
+                </div>
+            </div>
+
+            <!-- Twitter/X Video Downloader -->
+            <div class="bg-white rounded-xl shadow-xl overflow-hidden transform hover:scale-105 transition-transform duration-300 slide-in-top tool-card flex-shrink-0" style="width: 320px;">
+                <div class="p-4 bg-gradient-to-r from-blue-400 to-blue-600">
+                    <h3 class="text-white font-semibold text-lg flex items-center mb-2">
+                        <i class="fab fa-twitter mr-2"></i>Twitter/X Video Downloader
+                    </h3>
+                    <p class="text-blue-100 text-sm">Download videos from any public tweet instantly</p>
+                </div>
+                <div class="p-4">
+                    <ul class="space-y-2 text-gray-600 text-sm mb-4">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Paste tweet URL
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Instant download link
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Uses third-party service
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            No login or registration
+                        </li>
+                    </ul>
+                    <a href="twitter-video-downloader.html" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-xl font-semibold text-sm transition-all duration-200 flex items-center justify-center shadow-xl hover:shadow-2xl transform hover:scale-105">
+                        <i class="fas fa-arrow-right mr-2"></i>Try Twitter Video Downloader
+                    </a>
+                </div>
+            </div>
+
+            <!-- Auto-Caption Video Generator -->
+            <div class="bg-white rounded-xl shadow-xl overflow-hidden transform hover:scale-105 transition-transform duration-300 slide-in-top tool-card flex-shrink-0" style="width: 320px;">
+                <div class="p-4 bg-gradient-to-r from-blue-500 to-indigo-600">
+                    <h3 class="text-white font-semibold text-lg flex items-center mb-2">
+                        <i class="fas fa-closed-captioning mr-2"></i>Auto-Caption Video Generator
+                    </h3>
+                    <p class="text-blue-100 text-sm">Generate subtitles for your videos using OpenAI Whisper</p>
+                </div>
+                <div class="p-4">
+                    <ul class="space-y-2 text-gray-600 text-sm mb-4">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Upload MP4 video
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            AI-generated transcript
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Download SRT subtitles
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Powered by OpenAI Whisper
+                        </li>
+                    </ul>
+                    <a href="auto-caption-video.html" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 px-4 rounded-xl font-semibold text-sm transition-all duration-200 flex items-center justify-center shadow-xl hover:shadow-2xl transform hover:scale-105">
+                        <i class="fas fa-arrow-right mr-2"></i>Try Auto-Caption Video
+                    </a>
+                </div>
+            </div>
+
+            <!-- Password Generator -->
+            <div class="bg-white rounded-xl shadow-xl overflow-hidden transform hover:scale-105 transition-transform duration-300 tool-card flex-shrink-0" style="width: 320px;">
+                <div class="p-4 bg-gradient-to-r from-orange-500 to-red-500">
+                    <h3 class="text-white font-semibold text-lg flex items-center mb-2">
+                        <i class="fas fa-key mr-2"></i>Password Generator
+                    </h3>
+                    <p class="text-orange-100 text-sm">Generate strong, secure passwords with customizable options</p>
+                </div>
+                <div class="p-4">
+                    <ul class="space-y-2 text-gray-600 text-sm mb-4">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Customizable length
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Include numbers & symbols
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Copy to clipboard
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Password strength meter
+                        </li>
+                    </ul>
+                    <a href="password-generator.html" class="w-full bg-orange-600 hover:bg-orange-700 text-white py-3 px-4 rounded-xl font-semibold text-sm transition-all duration-200 flex items-center justify-center shadow-xl hover:shadow-2xl transform hover:scale-105 premium-btn">
+                        <i class="fas fa-arrow-right mr-2"></i>Generate Password
+                    </a>
+                </div>
+            </div>
+
+            <!-- QR Code Maker -->
+            <div class="bg-white rounded-xl shadow-xl overflow-hidden transform hover:scale-105 transition-transform duration-300 tool-card flex-shrink-0" style="width: 320px;">
+                <div class="p-4 bg-gradient-to-r from-teal-500 to-cyan-500">
+                    <h3 class="text-white font-semibold text-lg flex items-center mb-2">
+                        <i class="fas fa-qrcode mr-2"></i>QR Code Maker
+                    </h3>
+                    <p class="text-teal-100 text-sm">Create custom QR codes for URLs, text, or contact information</p>
+                </div>
+                <div class="p-4">
+                    <ul class="space-y-2 text-gray-600 text-sm mb-4">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            URL QR codes
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Text QR codes
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Contact QR codes
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Custom colors
+                        </li>
+                    </ul>
+                    <a href="qr-code-maker.html" class="w-full bg-teal-600 hover:bg-teal-700 text-white py-3 px-4 rounded-xl font-semibold text-sm transition-all duration-200 flex items-center justify-center shadow-xl hover:shadow-2xl transform hover:scale-105 premium-btn">
+                        <i class="fas fa-arrow-right mr-2"></i>Create QR Code
+                    </a>
+                </div>
+            </div>
+          </div>
+        </div>
+        <!-- End Tools Grid (Unified Block) -->
+
+        <!-- Why Use Our Website Section -->
+        <div class="max-w-7xl mx-auto mb-20 slide-in-left delay-1900">
+            <div class="bg-white rounded-2xl shadow-2xl p-12">
+                <h3 class="text-3xl font-semibold text-gray-800 mb-8 text-center slide-in-left delay-2000">
+                    <i class="fas fa-star mr-4 text-yellow-500"></i>Why Choose Toolora?
+                </h3>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Features Column -->
+                    <div class="space-y-6">
+                        <h4 class="text-2xl font-semibold text-purple-600 mb-4 flex items-center">
+                            <i class="fas fa-bolt mr-3"></i>Premium Features
+                        </h4>
+                        <div class="space-y-4">
+                            <div class="flex items-center">
+                                <div class="bg-green-100 w-12 h-12 rounded-full flex items-center justify-center mr-4">
+                                    <i class="fas fa-bolt text-green-600"></i>
+                                </div>
+                                <div>
+                                    <h5 class="font-semibold text-gray-800">Fast & Free</h5>
+                                    <p class="text-gray-600 text-sm">Instant results with no cost or registration required</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="bg-blue-100 w-12 h-12 rounded-full flex items-center justify-center mr-4">
+                                    <i class="fas fa-infinity text-blue-600"></i>
+                                </div>
+                                <div>
+                                    <h5 class="font-semibold text-gray-800">Unlimited Usage</h5>
+                                    <p class="text-gray-600 text-sm">Use our tools as much as you want - no limits ever</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="bg-purple-100 w-12 h-12 rounded-full flex items-center justify-center mr-4">
+                                    <i class="fas fa-mobile-alt text-purple-600"></i>
+                                </div>
+                                <div>
+                                    <h5 class="font-semibold text-gray-800">Works Everywhere</h5>
+                                    <p class="text-gray-600 text-sm">Perfect on desktop, tablet, and mobile devices</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Technology Column -->
+                    <div class="space-y-6">
+                        <h4 class="text-2xl font-semibold text-blue-600 mb-4 flex items-center">
+                            <i class="fas fa-cogs mr-3"></i>Modern Technology
+                        </h4>
+                        <div class="space-y-4">
+                            <div class="flex items-center">
+                                <div class="bg-red-100 w-12 h-12 rounded-full flex items-center justify-center mr-4">
+                                    <i class="fab fa-youtube text-red-600"></i>
+                                </div>
+                                <div>
+                                    <h5 class="font-semibold text-gray-800">YouTube API ✅</h5>
+                                    <p class="text-gray-600 text-sm">Public API - No authentication needed</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="bg-purple-100 w-12 h-12 rounded-full flex items-center justify-center mr-4">
+                                    <i class="fas fa-link text-purple-600"></i>
+                                </div>
+                                <div>
+                                    <h5 class="font-semibold text-gray-800">Link in Bio ✅</h5>
+                                    <p class="text-gray-600 text-sm">Local storage & responsive design</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="bg-green-100 w-12 h-12 rounded-full flex items-center justify-center mr-4">
+                                    <i class="fas fa-robot text-green-600"></i>
+                                </div>
+                                <div>
+                                    <h5 class="font-semibold text-gray-800">AI Powered</h5>
+                                    <p class="text-gray-600 text-sm">GPT-4 & Whisper integration</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- How to Use Column -->
+                    <div class="space-y-6">
+                        <h4 class="text-2xl font-semibold text-green-600 mb-4 flex items-center">
+                            <i class="fas fa-question-circle mr-3"></i>How to Use
+                        </h4>
+                        <div class="space-y-4">
+                            <div class="bg-gradient-to-r from-red-50 to-red-100 p-4 rounded-lg">
+                                <h5 class="font-semibold text-red-800 mb-2 flex items-center">
+                                    <i class="fab fa-youtube mr-2"></i>YouTube Thumbnails ✅
+                                </h5>
+                                <ol class="text-sm text-red-700 space-y-1">
+                                    <li>1. Paste YouTube URL</li>
+                                    <li>2. Click "Extract Thumbnails"</li>
+                                    <li>3. Download your preferred quality</li>
+                                </ol>
+                            </div>
+                            <div class="bg-gradient-to-r from-purple-50 to-purple-100 p-4 rounded-lg">
+                                <h5 class="font-semibold text-purple-800 mb-2 flex items-center">
+                                    <i class="fas fa-link mr-2"></i>Link in Bio ✅
+                                </h5>
+                                <ol class="text-sm text-purple-700 space-y-1">
+                                    <li>1. Add profile & bio</li>
+                                    <li>2. Add unlimited links</li>
+                                    <li>3. Download standalone page</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Bottom Banner -->
+                <div class="mt-8 p-6 bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-xl">
+                    <p class="text-blue-800 text-center text-lg">
+                        <i class="fas fa-rocket mr-2"></i>
+                        <strong>Perfect for:</strong> Content creators, marketers, influencers, and anyone who needs social media tools at scale
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Heartfelt Contact Form -->
+        <div class="max-w-4xl mx-auto mb-20 slide-in-left delay-2100">
+            <div class="bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl shadow-2xl p-12 border border-purple-200">
+                <div class="text-center mb-12">
+                    <div class="bg-gradient-to-r from-purple-500 to-pink-500 text-white w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-heart text-3xl"></i>
+                    </div>
+                    <h3 class="text-4xl font-bold text-purple-600 mb-4">
+                        Your Voice Matters to Us
+                    </h3>
+                    <p class="text-xl text-gray-600 mb-6">
+                        We're building this toolkit with love, and your feedback is the heartbeat of our journey
+                    </p>
+                    <div class="bg-gradient-to-r from-purple-100 to-pink-100 text-purple-800 px-6 py-3 rounded-full border border-purple-200 inline-block">
+                        <i class="fas fa-star mr-2"></i>Every message is personally read and valued
+                    </div>
+                </div>
+
+                <form id="contactForm" class="space-y-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="firstName" class="block text-lg font-semibold text-gray-700 mb-3">
+                                <i class="fas fa-user mr-2 text-purple-500"></i>First Name
+                            </label>
+                            <input 
+                                type="text" 
+                                id="firstName" 
+                                name="firstName" 
+                                required
+                                placeholder="Your beautiful first name..."
+                                class="w-full px-6 py-4 border-2 border-purple-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-purple-300 focus:border-purple-400 transition-all duration-200 text-lg bg-white"
+                            >
+                        </div>
+                        <div>
+                            <label for="lastName" class="block text-lg font-semibold text-gray-700 mb-3">
+                                <i class="fas fa-user mr-2 text-purple-500"></i>Last Name
+                            </label>
+                            <input 
+                                type="text" 
+                                id="lastName" 
+                                name="lastName" 
+                                required
+                                placeholder="Your wonderful last name..."
+                                class="w-full px-6 py-4 border-2 border-purple-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-purple-300 focus:border-purple-400 transition-all duration-200 text-lg bg-white"
+                            >
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="email" class="block text-lg font-semibold text-gray-700 mb-3">
+                            <i class="fas fa-envelope mr-2 text-purple-500"></i>Email Address
+                        </label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            required
+                            placeholder="your.email@gmail.com"
+                            class="w-full px-6 py-4 border-2 border-purple-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-purple-300 focus:border-purple-400 transition-all duration-200 text-lg bg-white"
+                        >
+                        <p class="text-sm text-gray-500 mt-2">
+                            <i class="fas fa-shield-alt mr-1"></i>Your email is safe with us - we'll never share it
+                        </p>
+                    </div>
+
+                    <div>
+                        <label for="message" class="block text-lg font-semibold text-gray-700 mb-3">
+                            <i class="fas fa-comments mr-2 text-purple-500"></i>Your Precious Message
+                        </label>
+                        <textarea 
+                            id="message" 
+                            name="message" 
+                            rows="6" 
+                            required
+                            placeholder="Tell us what you love, what we can improve, or just share your thoughts... Every word you write helps us create better tools for you! 💜"
+                            class="w-full px-6 py-4 border-2 border-purple-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-purple-300 focus:border-purple-400 transition-all duration-200 text-lg bg-white resize-none"
+                        ></textarea>
+                        <p class="text-sm text-gray-500 mt-2">
+                            <i class="fas fa-heart mr-1"></i>Your feedback is the fuel that drives our passion to serve you better
+                        </p>
+                    </div>
+
+                    <div class="text-center">
+                        <button 
+                            type="submit" 
+                            class="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-12 py-6 rounded-2xl font-bold text-xl transition-all duration-200 shadow-xl hover:shadow-2xl transform hover:scale-105 flex items-center justify-center mx-auto"
+                        >
+                            <i class="fas fa-paper-plane mr-3"></i>
+                            Send Your Heartfelt Message
+                        </button>
+                    </div>
+                </form>
+
+                <div id="successMessage" class="hidden text-center mt-8">
+                    <div class="bg-green-100 border border-green-400 text-green-700 px-6 py-4 rounded-xl">
+                        <i class="fas fa-check-circle text-2xl mb-2"></i>
+                        <p class="text-lg font-semibold">Thank you for sharing your heart with us! 💜</p>
+                        <p class="text-sm">Your message has been received with love and will be personally reviewed.</p>
+                        <button id="downloadMessagesBtn" class="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-semibold transition-all duration-200">
+                            <i class="fas fa-download mr-2"></i>Download All Messages
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Advertisement Space (After Contact Form) -->
+        <div class="max-w-7xl mx-auto mb-20 slide-in-left delay-2300">
+            <div class="bg-white rounded-2xl shadow-2xl p-12">
+                <h3 class="text-3xl font-semibold text-gray-800 mb-8 text-center slide-in-left delay-2400">
+                    <i class="fas fa-ad mr-4 text-blue-500"></i>Advertisement Space
+                </h3>
+                
+                <!-- Single Advertisement Area -->
+                <div class="text-center">
+                    <div class="bg-gradient-to-r from-blue-50 to-purple-50 border-2 border-dashed border-blue-300 rounded-2xl p-12 mb-6">
+                        <div class="bg-gray-100 rounded-xl p-8 min-h-[400px] flex items-center justify-center">
+                            <div class="text-center text-gray-500">
+                                <i class="fas fa-ad text-6xl mb-4"></i>
+                                <p class="text-xl font-semibold mb-2">Advertisement Space</p>
+                                <p class="text-lg mb-4">728x90 Banner Ad</p>
+                                <p class="text-sm">Perfect for Google AdSense</p>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 text-sm">
+                        <i class="fas fa-info-circle mr-2"></i>
+                        This space is optimized for maximum ad revenue and user engagement
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center mt-20 slide-in-left delay-2700">
+            <p class="text-gray-600 text-lg slide-in-left delay-2800">
+                Built with ❤️ for content creators and social media enthusiasts
+            </p>
+            <p class="text-gray-500 text-sm mt-2 slide-in-left delay-2900">
+                Free forever. No registration. No limits. Powered by modern web technologies.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // JARVIS Voice Introduction System - Extended 2+ Minute Version
+        let speech = null;
+        let isPlaying = false;
+        let currentIndex = 0;
+        let isStopped = false;
+
+        const jarvisScript = [
+            "I am JARVIS, I am here from Iron Man, I am here for a short tutorial. This is your comprehensive guide to the most advanced free online tools suite available.",
+            
+            "Toolora is designed for content creators, marketers, influencers, and anyone who needs professional-grade tools without the cost. Every tool is completely free, requires no registration, and has unlimited usage.",
+            
+            "Let me walk you through our cutting-edge tool collection. First, the YouTube Thumbnail Downloader. This powerful tool extracts high-quality thumbnails from any YouTube video. Simply paste a YouTube URL, and it provides both HD quality at 1280x720 pixels and standard quality at 480x360 pixels. Perfect for content creators who need thumbnails for their own videos or social media posts.",
+            
+            "Next, the Link in Bio Generator creates mobile-friendly bio pages with unlimited links. This is essential for influencers and businesses. You can customize your profile picture, bio text, and add unlimited link buttons with custom icons. The result is a professional, standalone HTML page that you can host anywhere. It's perfect for Instagram, TikTok, or any social media platform.",
+            
+            "The Emoji Translator is a fun and engaging tool that converts your text into emoji messages. Just type any sentence and watch it transform into engaging emoji content. Great for social media posts, messages, and adding personality to your communications. It's completely free and unlimited.",
+            
+            "Our AI Tweet Generator is powered by OpenAI GPT-4 technology. Enter any topic, and it will create three engaging tweets for you. Each tweet comes with a copy-to-clipboard feature for easy sharing. This is perfect for social media managers, influencers, and anyone who needs fresh content ideas.",
+            
+            "The Free Tools Bundle includes five essential utilities in one convenient package. A Password Generator creates secure passwords, a QR Code Maker generates quick links, a Word Counter analyzes your content, a Text Case Converter transforms text formatting, and a Unit Converter handles various measurements. All essential tools for daily productivity.",
+            
+            "The PDF to Flipbook Creator transforms any PDF into a beautiful, interactive book. Upload your PDF and experience it as a flippable digital book with page-turning animations. This is perfect for presentations, portfolios, or making documents more engaging.",
+            
+            "The Resume Score Checker uses AI to evaluate your resume. It provides a score out of ten and detailed feedback on formatting, clarity, and impact. Your data remains completely private and secure. This tool helps you create resumes that stand out to employers.",
+            
+            "The Twitter Video Downloader allows you to download videos from any public tweet. Simply paste the tweet URL and get an instant download link. No registration required, and it works with all public Twitter content.",
+            
+            "The Auto-Caption Video Generator uses OpenAI Whisper technology to create subtitles for your videos. Upload an MP4 file and download the SRT subtitles for professional video content. This is essential for accessibility and reaching wider audiences.",
+            
+            "All our tools are built with modern web technologies and designed for scale. They can handle millions of users without any issues. The tools work perfectly on desktop, tablet, and mobile devices.",
+            
+            "You can scroll right or left to explore all the tools in our suite. Each tool card contains detailed information about features and benefits. The horizontal scrolling layout makes it easy to browse through all available tools.",
+            
+            "Why choose Toolora? We offer instant results with no cost or registration required. Unlimited usage means you can use our tools as much as you want - no limits ever. All tools work everywhere - perfect on desktop, tablet, and mobile devices.",
+            
+            "Our tools are powered by cutting-edge technologies. The YouTube Thumbnail Downloader uses YouTube's public API for reliable, high-quality image extraction. The Link in Bio Generator uses local storage for data persistence and responsive design. All tools are built for the modern web.",
+            
+            "Getting started is simple. For YouTube thumbnails, click the tool, paste a URL, and download. For Link in Bio, create your profile, add links, and download your standalone page. Every tool has clear instructions and is designed for ease of use.",
+            
+            "Toolora is built for scale and can handle unlimited concurrent users. There are no restrictions on the number of downloads or creations. This makes it perfect for content creators, marketers, influencers, and anyone who needs social media tools at scale.",
+            
+            "All tools are completely free forever, require no registration, and have unlimited usage. They're designed to enhance your productivity and creativity. Welcome to the future of online tools. Your comprehensive toolkit awaits.",
+            "And remember, if you have any feedback, suggestions, or simply want to share your thoughts, please use the heartfelt contact form below. Every message is treasured and helps us make Toolora even better for you. Your voice truly matters to us, and we can't wait to hear from you! 💜"
+        ];
+
+        function speakPart(index) {
+            if (isStopped || index >= jarvisScript.length) {
+                isPlaying = false;
+                updateStatus("JARVIS introduction completed.");
+                updateButtonStates();
+                return;
+            }
+            
+            // Cancel any existing speech
+            if (speechSynthesis.speaking) {
+                speechSynthesis.cancel();
+            }
+            
+            speech = new SpeechSynthesisUtterance(jarvisScript[index]);
+            
+            // Enhanced JARVIS voice settings for better quality
+            speech.rate = 0.9;        // Slightly faster for more natural flow
+            speech.pitch = 0.95;      // Slightly lower pitch for more authoritative tone
+            speech.volume = 0.9;      // Slightly lower volume for better clarity
+            speech.lang = 'en-US';    // Ensure US English for better pronunciation
+            
+            // Try to find the best available voice
+            const voices = speechSynthesis.getVoices();
+            
+            // Priority order for voice selection
+            const preferredVoices = [
+                'Google UK English Male',    // Best British male voice
+                'Google UK English Female',  // Best British female voice
+                'Microsoft David Online (Natural)', // High quality male
+                'Microsoft Zira Online',     // High quality female
+                'Google US English Male',    // Good US male
+                'Google US English Female'   // Good US female
+            ];
+            
+            let selectedVoice = null;
+            
+            // Try to find preferred voices first
+            for (const voiceName of preferredVoices) {
+                const voice = voices.find(v => v.name === voiceName);
+                if (voice) {
+                    selectedVoice = voice;
+                    break;
+                }
+            }
+            
+            // If no preferred voice found, try to find any high-quality voice
+            if (!selectedVoice) {
+                selectedVoice = voices.find(voice => 
+                    voice.name.includes('Google') || 
+                    voice.name.includes('Microsoft') ||
+                    voice.name.includes('Natural') ||
+                    voice.name.includes('Premium')
+                ) || voices[0]; // Fallback to first available voice
+            }
+            
+            if (selectedVoice) {
+                speech.voice = selectedVoice;
+                console.log('Using voice:', selectedVoice.name);
+            }
+            
+            speech.onstart = () => {
+                isPlaying = true;
+                updateStatus(`JARVIS: ${jarvisScript[index].substring(0, 60)}...`);
+                updateButtonStates();
+            };
+            
+            speech.onend = () => {
+                if (!isStopped) {
+                    setTimeout(() => speakPart(index + 1), 800); // Longer pause between sentences
+                }
+            };
+            
+            speech.onerror = (event) => {
+                console.error('Speech synthesis error:', event);
+                isPlaying = false;
+                updateStatus("Voice playback error. Please try again.");
+                updateButtonStates();
+            };
+            
+            try {
+                speechSynthesis.speak(speech);
+            } catch (error) {
+                console.error('Speech synthesis failed:', error);
+                updateStatus("Voice not supported in this browser.");
+                updateButtonStates();
+            }
+        }
+
+        function playFullIntroduction() {
+            isStopped = false;
+            currentIndex = 0;
+            
+            // Check if speech synthesis is supported
+            if (!window.speechSynthesis) {
+                updateStatus("Voice not supported in this browser.");
+                return;
+            }
+            
+            speakPart(0);
+        }
+
+        function pauseVoice() {
+            if (speechSynthesis.speaking) {
+                speechSynthesis.pause();
+                updateStatus("JARVIS paused.");
+            }
+        }
+
+        function resumeVoice() {
+            if (speechSynthesis.paused) {
+                speechSynthesis.resume();
+                updateStatus("JARVIS resumed.");
+            }
+        }
+
+        function stopVoice() {
+            speechSynthesis.cancel();
+            isPlaying = false;
+            isStopped = true;
+            currentIndex = 0;
+            updateStatus("JARVIS stopped.");
+            updateButtonStates();
+        }
+
+        function updateStatus(message) {
+            const statusElement = document.getElementById('voiceStatus');
+            if (statusElement) {
+                statusElement.innerHTML = `<i class="fas fa-info-circle mr-1"></i>${message}`;
+            }
+        }
+
+        function updateButtonStates() {
+            const playBtn = document.getElementById('playVoiceBtn');
+            const pauseBtn = document.getElementById('pauseVoiceBtn');
+            const stopBtn = document.getElementById('stopVoiceBtn');
+            
+            if (!playBtn || !pauseBtn || !stopBtn) return;
+            
+            if (isPlaying) {
+                playBtn.innerHTML = '<i class="fas fa-play mr-1"></i>Playing...';
+                playBtn.disabled = true;
+                pauseBtn.disabled = false;
+            } else {
+                playBtn.innerHTML = '<i class="fas fa-play mr-1"></i>Play';
+                playBtn.disabled = false;
+                pauseBtn.disabled = true;
+            }
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Enhanced voice initialization
+            if (window.speechSynthesis) {
+                // Force voice loading
+                speechSynthesis.getVoices();
+                
+                // Wait for voices to load with better handling
+                speechSynthesis.onvoiceschanged = () => {
+                    const voices = speechSynthesis.getVoices();
+                    console.log('Voices loaded:', voices.length);
+                    
+                    // Log available voices for debugging
+                    voices.forEach((voice, index) => {
+                        console.log(`${index + 1}. ${voice.name} (${voice.lang}) - ${voice.default ? 'DEFAULT' : ''}`);
+                    });
+                    
+                    // Find and log the best available voice
+                    const preferredVoices = [
+                        'Google UK English Male',
+                        'Google UK English Female', 
+                        'Microsoft David Online (Natural)',
+                        'Microsoft Zira Online',
+                        'Google US English Male',
+                        'Google US English Female'
+                    ];
+                    
+                    for (const voiceName of preferredVoices) {
+                        const voice = voices.find(v => v.name === voiceName);
+                        if (voice) {
+                            console.log('✅ Best available voice found:', voice.name);
+                            break;
+                        }
+                    }
+                };
+                
+                // Additional voice loading attempt
+                setTimeout(() => {
+                    speechSynthesis.getVoices();
+                }, 1000);
+            }
+
+            // Event Listeners
+            const playBtn = document.getElementById('playVoiceBtn');
+            const pauseBtn = document.getElementById('pauseVoiceBtn');
+            const stopBtn = document.getElementById('stopVoiceBtn');
+
+            if (playBtn) {
+                playBtn.addEventListener('click', () => {
+                    if (speechSynthesis.paused) {
+                        resumeVoice();
+                    } else {
+                        playFullIntroduction();
+                    }
+                });
+            }
+
+            if (pauseBtn) {
+                pauseBtn.addEventListener('click', pauseVoice);
+            }
+
+            if (stopBtn) {
+                stopBtn.addEventListener('click', stopVoice);
+            }
+
+            // Contact Form Handler
+            const contactForm = document.getElementById('contactForm');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Get form data
+                    const formData = new FormData(contactForm);
+                    const firstName = formData.get('firstName');
+                    const lastName = formData.get('lastName');
+                    const email = formData.get('email');
+                    const message = formData.get('message');
+                    
+                    // Create message object
+                    const messageData = {
+                        timestamp: new Date().toISOString(),
+                        firstName: firstName,
+                        lastName: lastName,
+                        email: email,
+                        message: message
+                    };
+                    
+                    // Save to localStorage (as a backup)
+                    const existingMessages = JSON.parse(localStorage.getItem('userMessages') || '[]');
+                    existingMessages.push(messageData);
+                    localStorage.setItem('userMessages', JSON.stringify(existingMessages));
+                    
+                    // Create new message text
+                    const newMessageText = `
+=== NEW MESSAGE FROM WEBSITE ===
+Date: ${new Date().toLocaleString()}
+Name: ${firstName} ${lastName}
+Email: ${email}
+Message:
+${message}
+================================
+
+`;
+                    
+                    // Get existing messages from localStorage and create complete file
+                    const allMessages = existingMessages.map(msg => {
+                        return `=== MESSAGE ===
+Date: ${new Date(msg.timestamp).toLocaleString()}
+Name: ${msg.firstName} ${msg.lastName}
+Email: ${msg.email}
+Message:
+${msg.message}
+================================
+
+`;
+                    }).join('');
+                    
+                    // Create and download the complete messages file
+                    const blob = new Blob([allMessages], { type: 'text/plain' });
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'all_messages.txt';
+                    a.style.display = 'none';
+                    document.body.appendChild(a);
+                    
+                    // Try to trigger download
+                    try {
+                        a.click();
+                        console.log('✅ Download triggered successfully');
+                    } catch (error) {
+                        console.error('❌ Download failed:', error);
+                        // Fallback: show the content in a new window
+                        const newWindow = window.open('', '_blank');
+                        newWindow.document.write('<pre>' + allMessages + '</pre>');
+                        newWindow.document.title = 'All Messages';
+                    }
+                    
+                    document.body.removeChild(a);
+                    window.URL.revokeObjectURL(url);
+                    
+                    // Show success message
+                    const successMessage = document.getElementById('successMessage');
+                    if (successMessage) {
+                        successMessage.classList.remove('hidden');
+                        contactForm.reset();
+                        
+                        // Hide success message after 5 seconds
+                        setTimeout(() => {
+                            successMessage.classList.add('hidden');
+                        }, 5000);
+                    }
+                    
+                    // Add emotional touch
+                    console.log('💜 Message received with love from:', firstName, lastName);
+                });
+            }
+            
+            // Download Messages Button
+            const downloadMessagesBtn = document.getElementById('downloadMessagesBtn');
+            if (downloadMessagesBtn) {
+                downloadMessagesBtn.addEventListener('click', function() {
+                    const existingMessages = JSON.parse(localStorage.getItem('userMessages') || '[]');
+                    
+                    if (existingMessages.length === 0) {
+                        alert('No messages to download yet!');
+                        return;
+                    }
+                    
+                    const allMessages = existingMessages.map(msg => {
+                        return `=== MESSAGE ===
+Date: ${new Date(msg.timestamp).toLocaleString()}
+Name: ${msg.firstName} ${msg.lastName}
+Email: ${msg.email}
+Message:
+${msg.message}
+================================
+
+`;
+                    }).join('');
+                    
+                    const blob = new Blob([allMessages], { type: 'text/plain' });
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'all_messages.txt';
+                    a.style.display = 'none';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    window.URL.revokeObjectURL(url);
+                });
+            }
+        });
+    </script>
+    <script>
+      // Trigger left-to-right slide-in animation for all elements with the slide-in-left class
+      document.addEventListener('DOMContentLoaded', function() {
+        // Wait a bit longer to ensure everything is loaded
+        setTimeout(() => {
+          const elements = document.querySelectorAll('.slide-in-left');
+          elements.forEach((el, index) => {
+            setTimeout(() => {
+              el.classList.add('animate');
+            }, 200 + (index * 50)); // Stagger the animation trigger
+          });
+        }, 500); // Wait 500ms before starting animations
+      });
+    </script>
+    <script>
+      // Create Floating Particles
+      function createParticles() {
+        const particlesContainer = document.getElementById('particles');
+        const particleCount = 20;
+        
+        for (let i = 0; i < particleCount; i++) {
+          const particle = document.createElement('div');
+          particle.className = 'particle';
+          
+          // Random size between 2px and 8px
+          const size = Math.random() * 6 + 2;
+          particle.style.width = size + 'px';
+          particle.style.height = size + 'px';
+          
+          // Random position
+          particle.style.left = Math.random() * 100 + '%';
+          particle.style.top = Math.random() * 100 + '%';
+          
+          // Random animation delay
+          particle.style.animationDelay = Math.random() * 6 + 's';
+          
+          particlesContainer.appendChild(particle);
+        }
+      }
+
+      // Initialize particles when page loads
+      document.addEventListener('DOMContentLoaded', function() {
+        createParticles();
+        
+        // Trigger left-to-right slide-in animation for all elements with the slide-in-left class
+        setTimeout(() => {
+          const elements = document.querySelectorAll('.slide-in-left');
+          elements.forEach((el, index) => {
+            setTimeout(() => {
+              el.classList.add('animate');
+            }, 200 + (index * 50)); // Stagger the animation triggerf
+          });
+        }, 500); // Wait 500ms before starting animations
+      });
+
+      // Premium Button Ripple Effect
+      document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('premium-btn')) {
+          const ripple = document.createElement('span');
+          const rect = e.target.getBoundingClientRect();
+          const size = Math.max(rect.width, rect.height);
+          const x = e.clientX - rect.left - size / 2;
+          const y = e.clientY - rect.top - size / 2;
+          
+          ripple.style.width = ripple.style.height = size + 'px';
+          ripple.style.left = x + 'px';
+          ripple.style.top = y + 'px';
+          ripple.classList.add('ripple');
+          
+          e.target.appendChild(ripple);
+          
+          setTimeout(() => {
+            ripple.remove();
+          }, 600);
+        }
+      });
+
+      // Add smooth scroll for better UX
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }
+        });
+      });
+
+      // Add intersection observer for scroll animations
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+          }
+        });
+      }, observerOptions);
+
+      // Observe all tool cards for scroll animations
+      document.querySelectorAll('.tool-card').forEach(card => {
+        observer.observe(card);
+      });
+    </script>
+    
+
+
+    <!-- Hidden Star Button Functionality -->
+    <script>
+        // Credentials (you can change these later)
+        const CORRECT_ID = "1";
+        const CORRECT_PASSWORD = "QWERTASDFGHZXCVIO@GMAIL.COM";
+        
+        // Get DOM elements
+        const hiddenStarBtn = document.getElementById('hiddenStarBtn');
+        const credentialModal = document.getElementById('credentialModal');
+        const submitBtn = document.getElementById('submitCredentials');
+        const userIdInput = document.getElementById('userId');
+        const userPasswordInput = document.getElementById('userPassword');
+        const errorMessage = document.getElementById('errorMessage');
+        const ownershipMessage = document.getElementById('ownershipMessage');
+        
+        // Show modal when star button is clicked
+        hiddenStarBtn.addEventListener('click', function() {
+            credentialModal.classList.add('show');
+            userIdInput.focus();
+        });
+        
+        // Hide modal when clicking outside
+        credentialModal.addEventListener('click', function(e) {
+            if (e.target === credentialModal) {
+                hideModal();
+            }
+        });
+        
+        // Handle form submission
+        submitBtn.addEventListener('click', function() {
+            const enteredId = userIdInput.value.trim();
+            const enteredPassword = userPasswordInput.value.trim();
+            
+            if (enteredId === CORRECT_ID && enteredPassword === CORRECT_PASSWORD) {
+                // Success - show ownership message
+                hideModal();
+                showOwnershipMessage();
+                
+                // Store in localStorage so it persists
+                localStorage.setItem('isOwner', 'true');
+                
+                // Add some celebration effects
+                celebrateSuccess();
+            } else {
+                // Show error message
+                errorMessage.style.display = 'block';
+                userPasswordInput.value = '';
+                userPasswordInput.focus();
+                
+                // Hide error after 3 seconds
+                setTimeout(() => {
+                    errorMessage.style.display = 'none';
+                }, 3000);
+            }
+        });
+        
+        // Handle Enter key in inputs
+        userIdInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                userPasswordInput.focus();
+            }
+        });
+        
+        userPasswordInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                submitBtn.click();
+            }
+        });
+        
+        // Check if user is already authenticated
+        if (localStorage.getItem('isOwner') === 'true') {
+            showOwnershipMessage();
+        }
+        
+        // Click counter for ownership message
+        let messageClickCount = 0;
+        
+        // Add click event to ownership message
+        ownershipMessage.addEventListener('click', function() {
+            messageClickCount++;
+            if (messageClickCount >= 3) {
+                hideOwnershipMessage();
+                messageClickCount = 0;
+            }
+        });
+        
+        function hideModal() {
+            credentialModal.classList.remove('show');
+            userIdInput.value = '';
+            userPasswordInput.value = '';
+            errorMessage.style.display = 'none';
+        }
+        
+        function showOwnershipMessage() {
+            ownershipMessage.classList.add('show');
+            
+            // Hide the star button after successful authentication
+            hiddenStarBtn.style.display = 'none';
+        }
+        
+        function hideOwnershipMessage() {
+            ownershipMessage.classList.remove('show');
+            
+            // Show the star button again
+            hiddenStarBtn.style.display = 'flex';
+            
+            // Clear authentication
+            localStorage.removeItem('isOwner');
+        }
+        
+        function celebrateSuccess() {
+            // Create confetti effect
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    createConfetti();
+                }, i * 100);
+            }
+            
+            // Add success sound effect (if available)
+            if (typeof Audio !== 'undefined') {
+                try {
+                    const audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLZiTYIG2m98OScTgwOUarm7blmGgU7k9n1unEiBC13yO/eizEIHWq+8+OWT');
+                    audio.play().catch(() => {}); // Ignore errors if audio fails
+                } catch (e) {
+                    // Ignore audio errors
+                }
+            }
+        }
+        
+        function createConfetti() {
+            const confetti = document.createElement('div');
+            confetti.style.position = 'fixed';
+            confetti.style.left = Math.random() * 100 + 'vw';
+            confetti.style.top = '-10px';
+            confetti.style.width = '10px';
+            confetti.style.height = '10px';
+            confetti.style.backgroundColor = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57', '#ff9ff3'][Math.floor(Math.random() * 6)];
+            confetti.style.borderRadius = '50%';
+            confetti.style.pointerEvents = 'none';
+            confetti.style.zIndex = '10000';
+            confetti.style.animation = 'confettiFall 3s linear forwards';
+            
+            document.body.appendChild(confetti);
+            
+            setTimeout(() => {
+                confetti.remove();
+            }, 3000);
+        }
+        
+        // Add confetti animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes confettiFall {
+                to {
+                    transform: translateY(100vh) rotate(720deg);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html> 
